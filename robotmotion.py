@@ -28,3 +28,8 @@ for x in range(500):
             row[y] = 0
     m[x] = row
 print(m)
+
+##generating a random angle for the arm
+import random
+randomangle = random.randint(0,360)
+
