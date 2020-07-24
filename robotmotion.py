@@ -10,9 +10,8 @@ import pandas
 import matplotlib.pyplot as plt
 
 ##initializing matrix
-m =  []
-for x in range(500):
-    m.append(np.zeros(500))
+m =   np.zeros((500,500))
+
 
 for x in range(500):
     row =  np.zeros(500)
@@ -27,9 +26,14 @@ for x in range(500):
         else:
             row[y] = 0
     m[x] = row
-print(m)
-
+print( m)
 ##generating a random angle for the arm
-import random
-randomangle = random.randint(0,360)
+randomangle1 = random.randint(0,360)
+randomangle2 = random.randint(0,360)
+arm1length = 200
+arm2length = 200
+arm1Grid = np.zeros((200,15))
 
+##begin conversion to cspace
+cspace =  np.zeros((360,360))
+print (arm1Grid)
