@@ -84,9 +84,11 @@ overlapcount(arm2Grid, m)
 countobstacles(m)
 
 plt.imshow(arm1Grid)
+plt.gca().invert_yaxis()
 plt.show()
 holderArray = rotate1counterclockwise(arm1Grid, 5)
 plt.imshow(holderArray)
+plt.gca().invert_yaxis()
 plt.show()
 
 ##begin conversion to cspace
