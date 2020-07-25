@@ -16,9 +16,10 @@ for x in range(495):
     for y in range(495):
         num = random.random()
         if num<.00003:
-            for r in range(5):
-                for c in range(5):
-                    m[x+r][y+c] = 1
+            for r in range(20):
+                for c in range(20):
+                    if not(x+r > 499) or not(y+c > 499) or not(y+c < 0) or not (x+r < 0) :
+                        m[x+r][y+c] = 1
 
 ##generating a random angle for the arms initial and final configs
 randomangle1 = random.randint(0,360)
@@ -46,12 +47,15 @@ for z in range(20):
 
 #this is a work in progresss
 def rotate1counterclockwise(mylist, angle):
+    angle = math.radians(angle)
     matrix = np.zeros((500,500))
     for x in range(500):
         for y in range(500):
             if mylist[x][y] == 1:
-                xprime = (x*math.cos(angle))-(y*math.sin(angle))
-                yprime = (y*math.cos(angle))+(x*math.sin(angle))
+                center_x = 249
+                center_y = 249
+                xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+                yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
                 xprime = round(xprime)
                 yprime = round(yprime)
                 matrix[xprime][yprime] = 1
@@ -74,6 +78,18 @@ def countobstacles(matrix):
             if matrix[x,y] ==1:
                 count+=1
     print (count)
+#generates array with arm2 position based on Arm1 configuration
+def generateArm2CurrentPosition(currentArm1Angle):
+    angle = currentArm1Angle
+    center_x = 249
+    center_y = 249
+    xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+    yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
+    xprime = round(xprime)
+    yprime = round(yprime)
+    
+
+
 
 #printing information
 print("total pixel collision between arm matrix 1 and  matrix and total  matrix obstacles")
@@ -82,11 +98,21 @@ countobstacles(m)
 print("total pixel collision between arm matrix 2 and  matrix and total  matrix obstacles")
 overlapcount(arm2Grid, m)
 countobstacles(m)
-
+#show obstacle map
+plt.imshow(m)
+#inverts y axis to look regular
+plt.gca().invert_yaxis()
+plt.show()
+#show original arm configuration
 plt.imshow(arm1Grid)
 plt.gca().invert_yaxis()
 plt.show()
+#show roated arm config
 holderArray = rotate1counterclockwise(arm1Grid, 5)
+plt.imshow(holderArray)
+plt.gca().invert_yaxis()
+plt.show()
+holderArray = rotate1counterclockwise(arm1Grid, 90)
 plt.imshow(holderArray)
 plt.gca().invert_yaxis()
 plt.show()
