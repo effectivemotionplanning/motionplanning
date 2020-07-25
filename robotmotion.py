@@ -6,6 +6,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 import random
 import numpy as np
 import pandas
+import math
 
 import matplotlib.pyplot as plt
 
@@ -45,15 +46,16 @@ for z in range(20):
 
 #this is a work in progresss
 def rotate1counterclockwise(mylist, angle):
+    matrix = np.zeros((500,500))
     for x in range(500):
-        row =  np.zeros(500) #making a new row which will take place of old one in matrix
         for y in range(500):
-            initialxposofpixel = arm1grid[x]
-            b = 250 #rotation y coordinate
-            a = 250 #rotation x coordinate
-            thetarotation = angle
-
-
+            if mylist[x][y] == 1:
+                xprime = (x*math.cos(angle))-(y*math.sin(angle))
+                yprime = (y*math.cos(angle))+(x*math.sin(angle))
+                xprime = round(xprime)
+                yprime = round(yprime)
+                matrix[xprime][yprime] = 1
+    return matrix
 
 #prints total overlapped pixels of arm and matrix
 def overlapcount(armgrid, matrix):
@@ -81,8 +83,11 @@ print("total pixel collision between arm matrix 2 and  matrix and total  matrix 
 overlapcount(arm2Grid, m)
 countobstacles(m)
 
-
-
+plt.imshow(arm1Grid)
+plt.show()
+holderArray = rotate1counterclockwise(arm1Grid, 5)
+plt.imshow(holderArray)
+plt.show()
 
 ##begin conversion to cspace
 cspace =  np.zeros((360,360))
