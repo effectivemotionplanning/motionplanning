@@ -56,23 +56,27 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     yprime = round(yprime)
     for z in range(20):
         for c in range(arm2length):
-            arm2holderGrid[c+250][240+z] =1
+            arm2holderGrid[c+350][240+z] =1
     plt.imshow(arm2holderGrid)
-    plt.gca().invert_yaxis()
+    print("4th image is  arm 2 ")
+    #plt.gca().invert_yaxis()
     plt.show()
-    for x in range(500):
-        for y in range(500):
-            if arm2holderGrid[x][y] == 1:
+    for r in range(500):
+        for l in range(500):
+            if arm2holderGrid[r][l] == 1:
                 angle = currentArm2Angle
                 center_x = xprime
                 center_y = yprime
+
                 xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
                 yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
                 xprime = round(xprime)
                 yprime = round(yprime)
-                arm2holderGrid[yprime][xprime] = 1
+
+                arm2holderGrid[yprime][xprime] = 1#switched both
     plt.imshow(arm2holderGrid)
-    plt.gca().invert_yaxis()
+    #plt.gca().invert_yaxis()
+    print("5th image and arm 2 after arm 1 and 2 rotation")
     plt.show()
 
     return arm2holderGrid
@@ -84,7 +88,7 @@ def generateObstacleGrid():
             if num<.00003:
                 for r in range(20):
                     for c in range(20):
-                        m[x+r][y+c] = 1
+                        m[y+r][x+c] = 1
     return m
 
 ##initializing matrix with random 5 by 5 obstacles
@@ -103,25 +107,34 @@ arm2Grid = np.zeros((500,500))
 
 #bassically making arm 1 grid w arm at center . arm has a width of 20 and a length of 200
 
+#MAKING ARM 1 GRID AND SHOWING IT, FIRST IMAGE U SEE IS THIS
 for z in range(20):
     for c in range(arm1length):
-        #arm1Grid[240+z][c+250] =1
+        arm1Grid[240+c][z+250] =1
         arm1Grid[100][400] = 1
 plt.imshow(arm1Grid)
 #plt.gca().invert_yaxis()
+print("arm 1 grid and image 1 ")
 plt.show()
 
 #same thing, just for arm grid 2
+print("arm 2 grid and 2nd image")
+# THIS IS THE 2ND IMAGE U SEE
 for z in range(20):
     for c in range(arm2length):
-        arm2Grid[240+z][c+250] =1
-
+        arm2Grid[340+c][z+250] =1
+plt.imshow(arm2Grid)
+#plt.gca().invert_yaxis()
+plt.show()
 
 #this is a work in progresss
 
+#imshow generates image, show reveales that image
 
-
-
+print("3rd image and the obstacle matrix grid")
+plt.imshow(obstacleMatrix)
+#THIS IS THE 3RD IMAGE U SEE
+plt.show()
 #printing information
 print("total pixel collision between arm matrix 1 and  matrix and total  matrix obstacles")
 overlapcount(arm1Grid, obstacleMatrix)
@@ -133,13 +146,19 @@ generateArm2CurrentPosition(90,45)
 #show obstacle map
 plt.imshow(obstacleMatrix)
 #inverts y axis to look regular
-plt.gca().invert_yaxis()
+#plt.gca().invert_yaxis()
+print("6th image and obstacle matrix again")
 plt.show()
 #show original arm configuration
 plt.imshow(arm1Grid)
-plt.gca().invert_yaxis()
+#plt.gca().invert_yaxis()
+print("7th image which is arm 1 grid")
 plt.show()
 #show roated arm config
+print("arm 1 rotation test")
+
+plt.imshow(rotate1counterclockwise(arm1Grid, 69))
+plt.show()
 
 ##begin conversion to cspace
 cspace =  np.zeros((360,360))
