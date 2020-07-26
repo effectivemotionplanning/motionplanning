@@ -10,12 +10,12 @@ import math
 
 import matplotlib.pyplot as plt
 
-def rotate1counterclockwise(mylist, angle):
-    angle = math.radians(angle)
-    matrix = np.zeros((500,500))
-    for x in range(500):
-        for y in range(500):
-            if mylist[x][y] == 1:
+def rotate1counterclockwise(mylist, angle): ##defines the function for rotation
+    angle = math.radians(angle) ##converts into radians
+    matrix = np.zeros((500,500))  ##fill a 500x500 array with 0s
+    for x in range(500): ##x coordinate
+        for y in range(500): ##y coordinate
+            if mylist[x][y] == 1:##this is the arm and this code does rotation and at every point that equals one, it rotates it and creates a new matrix
                 center_x = 249
                 center_y = 249
                 xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
@@ -23,14 +23,14 @@ def rotate1counterclockwise(mylist, angle):
                 xprime = round(xprime)
                 yprime = round(yprime)
                 matrix[xprime][yprime] = 1
-    return matrix
+    return matrix  ##returns the matrix with the rotated arm
 
 #prints total overlapped pixels of arm and matrix
-def overlapcount(armgrid, matrix):
+def overlapcount(armgrid, matrix): ##defines the function
     overlapCount = 0
     for x in range (500):
         for y in range(500):
-            if armgrid[x,y] == 1 and matrix[x,y] ==1:
+            if armgrid[x,y] == 1 and matrix[x,y] ==1: ##if x and y corodiantes point to a place that is 1, then it will increase the overlap count to determine the number of collisions
                 overlapCount+=1
     print(overlapCount)
 
@@ -42,11 +42,12 @@ def countobstacles(matrix):
             if matrix[x,y] ==1:
                 count+=1
     print (count)
+
 #generates array with arm2 position based on Arm1 configuration
 def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
-    arm2holderGrid = np.zeros((500,500))
+    arm2holderGrid = np.zeros((500,500))                                                                            what is the arm2holderGrid
     angle = currentArm1Angle
-    center_x = 249
+    center_x = 249                                                                                                  what does all of this begin to do
     center_y = 249
     x = 249
     y = 349
@@ -82,21 +83,21 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     return arm2holderGrid
 def generateObstacleGrid():
     m =   np.zeros((500,500))
-    for x in range(480):
+    for x in range(480):                                                                                                why does the obstacle grid have a range of 480? is it cuz its 5x5
         for y in range(480):
             num = random.random()
-            if num<.00003:
-                for r in range(20):
-                    for c in range(20):
-                        m[y+r][x+c] = 1
-    return m
+            if num<.00003:                                                                                              why less than .00003
+                for r in range(20):                                                                                     why range of 20
+                    for c in range(20):                                                                                 why range of 20
+                        m[y+r][x+c] = 1                                                                                 what does this mean?
+    return m                                                                                                            why return m
 
 ##initializing matrix with random 5 by 5 obstacles
 obstacleMatrix = generateObstacleGrid();
 ##generating a random angle for the arms initial and final configs
 randomangle1 = random.randint(0,360)
 randomangle2 = random.randint(0,360)
-finalangle1 =int( random.random() * 360)
+finalangle1 =int( random.random() * 360)                                                                                what is this doing
 finalangle2 =int( random.random() * 360)
 #each arm is 100 long
 arm1length = 100
@@ -108,7 +109,7 @@ arm2Grid = np.zeros((500,500))
 #bassically making arm 1 grid w arm at center . arm has a width of 20 and a length of 200
 
 #MAKING ARM 1 GRID AND SHOWING IT, FIRST IMAGE U SEE IS THIS
-for z in range(20):
+for z in range(20):                                                                                                        what is this doing
     for c in range(arm1length):
         arm1Grid[240+c][z+250] =1
         arm1Grid[100][400] = 1
@@ -162,4 +163,4 @@ plt.show()
 
 ##begin conversion to cspace
 cspace =  np.zeros((360,360))
-##print (arm1Grid) 
+##print (arm1Grid)
