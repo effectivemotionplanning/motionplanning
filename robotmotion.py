@@ -162,5 +162,4 @@ plt.show()
 
 ##begin conversion to cspace
 cspace =  np.zeros((360,360))
-##print (arm1Grid) dshshdsdsdsdsdsds
-print("hi")
+##print (arm1Grid) 
