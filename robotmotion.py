@@ -45,9 +45,9 @@ def countobstacles(matrix):
 
 #generates array with arm2 position based on Arm1 configuration
 def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
-    arm2holderGrid = np.zeros((500,500))                                                                            what is the arm2holderGrid
+    arm2holderGrid = np.zeros((500,500))                                                                            ##what is the arm2holderGrid
     angle = currentArm1Angle
-    center_x = 249                                                                                                  what does all of this begin to do
+    center_x = 249                                                                                                  ##what does all of this begin to do
     center_y = 249
     x = 249
     y = 349
@@ -83,21 +83,21 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     return arm2holderGrid
 def generateObstacleGrid():
     m =   np.zeros((500,500))
-    for x in range(480):                                                                                                why does the obstacle grid have a range of 480? is it cuz its 5x5
+    for x in range(480):                                                                                                ##why does the obstacle grid have a range of 480? is it cuz its 5x5
         for y in range(480):
             num = random.random()
-            if num<.00003:                                                                                              why less than .00003
-                for r in range(20):                                                                                     why range of 20
-                    for c in range(20):                                                                                 why range of 20
-                        m[y+r][x+c] = 1                                                                                 what does this mean?
-    return m                                                                                                            why return m
+            if num<.00003:                                                                                              ##why less than .00003
+                for r in range(20):                                                                                     ##why range of 20
+                    for c in range(20):                                                                                 ##why range of 20
+                        m[y+r][x+c] = 1                                                                                 ##what does this mean?
+    return m                                                                                                            ##why return m
 
 ##initializing matrix with random 5 by 5 obstacles
 obstacleMatrix = generateObstacleGrid();
 ##generating a random angle for the arms initial and final configs
 randomangle1 = random.randint(0,360)
 randomangle2 = random.randint(0,360)
-finalangle1 =int( random.random() * 360)                                                                                what is this doing
+finalangle1 =int( random.random() * 360)                                                                                ##what is this doing
 finalangle2 =int( random.random() * 360)
 #each arm is 100 long
 arm1length = 100
@@ -109,7 +109,7 @@ arm2Grid = np.zeros((500,500))
 #bassically making arm 1 grid w arm at center . arm has a width of 20 and a length of 200
 
 #MAKING ARM 1 GRID AND SHOWING IT, FIRST IMAGE U SEE IS THIS
-for z in range(20):                                                                                                        what is this doing
+for z in range(20):                                                                                                        ##what is this doing
     for c in range(arm1length):
         arm1Grid[240+c][z+250] =1
         arm1Grid[100][400] = 1
