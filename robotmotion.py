@@ -81,8 +81,7 @@ def generateObstacleGrid():
     for x in range(480):
         for y in range(480):
             num = random.random()
-            #if num<.00003:
-            if num<.1:
+            if num<.00003:
                 for r in range(20):
                     for c in range(20):
                         m[x+r][y+c] = 1
