@@ -50,7 +50,7 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     center_y = 249
     x = 249
     y = 349
-    xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+    xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x  #coordinates of edge pixel, end of arm 1, point of rotation for arm 2
     yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
     xprime = round(xprime)
     yprime = round(yprime)
@@ -78,14 +78,14 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     return arm2holderGrid
 def generateObstacleGrid():
     m =   np.zeros((500,500))
-    for x in range(495):
-        for y in range(495):
+    for x in range(480):
+        for y in range(480):
             num = random.random()
-            if num<.00003:
+            #if num<.00003:
+            if num<.1:
                 for r in range(20):
                     for c in range(20):
-                        if not(x+r > 499) or not(y+c > 499) or not(y+c < 0) or not (x+r < 0) :
-                            m[x+r][y+c] = 1
+                        m[x+r][y+c] = 1
     return m
 
 ##initializing matrix with random 5 by 5 obstacles
