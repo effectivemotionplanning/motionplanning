@@ -106,6 +106,7 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
     for arm1degree in range(360):
         arm1array = generateArm1CurrentPosition(arm1degree)
         if isOverlap1(obstacleArray, obstacleCoordinateList, arm1array):
+            print("XXXXXXXXXXXXXXXXXX")
             continue
         print(arm1degree)
         for arm2degree in range(360):
