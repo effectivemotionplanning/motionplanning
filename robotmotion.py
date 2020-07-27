@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 def generateArm1CurrentPosition(angle): ##defines the function for rotation
     mylist = np.zeros((500,500))
-    for z in range(20):                                                                                                        ##what is this doing
+    for z in range(20):
         for c in range(arm1length):
             mylist[499 - (240+c)][z+250] =1
 
@@ -31,7 +31,7 @@ def generateArm1CurrentPosition(angle): ##defines the function for rotation
     return matrix  ##returns the matrix with the rotated arm
 
 #prints total overlapped pixels of arm and matrix
-def overlapcount(armgrid, matrix): ##defines the function
+def overlapcount(armgrid, matrix):
     overlapCount = 0
     for x in range (500):
         for y in range(500):
@@ -51,9 +51,9 @@ def countobstacles(matrix):
 #generates array with arm2 position based on Arm1 configuration
 def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     arm2holderGrid = np.zeros((500,500))
-                                                                              ##what is the arm2holderGrid
+
     angle = math.radians(currentArm1Angle)
-    center_x = 249                                                                                                  ##what does all of this begin to do
+    center_x = 249
     center_y = 249
     x = 249
     y = 349
@@ -84,39 +84,56 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
     return newRotatedArm2Grid
 def generateObstacleGrid():
     m =   np.zeros((500,500))
-    for x in range(480):                                                                                                ##why does the obstacle grid have a range of 480? is it cuz its 5x5
+    array = []
+    for x in range(480):
         for y in range(480):
             num = random.random()
-            if num<.00003:                                                                                              ##why less than .00003
-                for r in range(20):                                                                                     ##why range of 20
-                    for c in range(20):                                                                                 ##why range of 20
-                        m[y+r][x+c] = 1                                                                                 ##what does this mean?
-    return m                                                                                                            ##why return m
-def generatecspace(obstacleArray):
+            if num<.00003:
+                for r in range(20):
+                    for c in range(20):
+                        m[y+r][x+c] = 1
+                        holderArray = []
+                        holderArray.append(y+r)
+                        holderArray.append(x+c)
+                        array.append(holderArray)
+    return m, array
+
+
+
+
+def generatecspace(obstacleArray, obstacleCoordinateList):
     cspaceHolderGrid = np.zeros((500,500))
     for arm1degree in range(360):
         arm1array = generateArm1CurrentPosition(arm1degree)
+        print(arm1degree)
         for arm2degree in range(360):
             print(arm2degree)
             arm2array = generateArm2CurrentPosition(arm1degree,arm2degree)
-            if not isOverlap(obstacleArray,arm1array,arm2array):
+            if not isOverlap(obstacleArray,obstacleCoordinateList,arm1array,arm2array):
                 cspaceHolderGrid[arm2degree][arm1degree] = 0
             else:
                 cspaceHolderGrid[arm2degree][arm1degree] = 1
     return cspaceHolderGrid
 
 
-def isOverlap(array1, array2, array3):
-    for x in range(500):
-        for y in range(500):
-            if array1[y][x] == 1 and array2[y][x] == 1 or array1[y][x] == 1 and array3[y][x]:
-                return True
+def isOverlap(array1, coordinateList, array2, array3):
+    ##for x in range(500):
+        ##for y in range(500):
+        ##    if array1[y][x] == 1 and array2[y][x] == 1 or array1[y][x] == 1 and array3[y][x]:
+            ##    return True
+    ##return False
+    for p in coordinateList:
+        a = p[0]
+        b = p[1]
+        if array2[a][b] == 1 or array3[a][b] == 1:
+            return True
     return False
 
 
 
+
 ##initializing matrix with random 5 by 5 obstacles
-obstacleMatrix = generateObstacleGrid();
+obstacleMatrix, obstaclelist = generateObstacleGrid();
 ##generating a random angle for the arms initial and final configs
 #each arm is 100 long
 arm1length = 100
@@ -135,6 +152,7 @@ arm2Grid = np.zeros((500,500))
 #this is a work in progresss
 
 #imshow generates image, show reveales that image
+
 plt.imshow(obstacleMatrix)
 #THIS IS THE 3RD IMAGE U SEE
 plt.show()
@@ -143,7 +161,7 @@ plt.imshow(generateArm1CurrentPosition(45))
 plt.show()
 plt.imshow(generateArm2CurrentPosition(45,180))
 plt.show()
-plt.imshow(generatecspace(obstacleMatrix))
+plt.imshow(generatecspace(obstacleMatrix, obstaclelist))
 plt.show()
 ##begin conversion to cspace
 cspace =  np.zeros((360,360))
