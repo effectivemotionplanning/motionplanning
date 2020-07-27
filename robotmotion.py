@@ -159,14 +159,13 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
     for arm1degree in range(360):
         arm1array = generateArm1CurrentPosition(arm1degree)
         if isOverlap1(obstacleArray, obstacleCoordinateList, arm1array):
-            print("XXXXXXXXXXXXXXXXXX")
             continue
         for arm2degree in range(360):
             print(arm2degree)
             if doesarm2overlap(arm1degree, arm2degree, obstaclelist):
-                cspaceHolderGrid[arm1degree][arm2degree] = 1
+                cspaceHolderGrid[arm2degree][arm1degree] = 1
             else:
-                cspaceHolderGrid[arm1degree][arm2degree] = 0
+                cspaceHolderGrid[arm2degree][arm1degree] = 0
     return cspaceHolderGrid
 
 
@@ -195,21 +194,7 @@ def isOverlap1(array1, coordinateList, array2):
         if array2[a][b] == 1:
             return True
     return False
-def isOverlap2(array1, coordinateList, array2):
-    ##for x in range(500):
-        ##for y in range(500):
-        ##    if array1[y][x] == 1 and array2[y][x] == 1 or array1[y][x] == 1 and array3[y][x]:
-            ##    return True
-    ##return False
-    for p in coordinateList:
-        a = p[0]
-        b = p[1]
-        for n in array2:
-            c = n[0]
-            d = n[1]
-            if a==c and b==d:
-                return False
-    return True
+
 
 
 
@@ -238,9 +223,9 @@ plt.imshow(obstacleMatrix)
 #THIS IS THE 3RD IMAGE U SEE
 plt.show()
 #printing information
-plt.imshow(generateArm1CurrentPosition(45))
+plt.imshow(generateArm1CurrentPosition(10))
 plt.show()
-plt.imshow(generateArm2CurrentPosition(45,180))
+plt.imshow(generateArm2CurrentPosition(10,10))
 plt.show()
 plt.imshow(generatecspace(obstacleMatrix, obstaclelist))
 plt.show()
