@@ -105,6 +105,8 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
     cspaceHolderGrid = np.zeros((500,500))
     for arm1degree in range(360):
         arm1array = generateArm1CurrentPosition(arm1degree)
+        if isOverlap(obstacleArray, obstacleCoordinateList, arm1array):
+            continue
         print(arm1degree)
         for arm2degree in range(360):
             print(arm2degree)
@@ -126,6 +128,19 @@ def isOverlap(array1, coordinateList, array2, array3):
         a = p[0]
         b = p[1]
         if array2[a][b] == 1 or array3[a][b] == 1:
+            return True
+    return False
+
+def isOverlap(array1, coordinateList, array2):
+    ##for x in range(500):
+        ##for y in range(500):
+        ##    if array1[y][x] == 1 and array2[y][x] == 1 or array1[y][x] == 1 and array3[y][x]:
+            ##    return True
+    ##return False
+    for p in coordinateList:
+        a = p[0]
+        b = p[1]
+        if array2[a][b] == 1:
             return True
     return False
 
