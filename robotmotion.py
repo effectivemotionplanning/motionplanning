@@ -82,6 +82,51 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
 
 
     return newRotatedArm2Grid
+
+def doesarm2overlap(currentArm1Angle,currentArm2Angle):
+    arm2holderGrid = np.zeros((500,500))
+    array = []
+    finalarray = []
+    angle = math.radians(currentArm1Angle)
+    center_x = 249
+    center_y = 249
+    x = 249
+    y = 349
+    xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x  #coordinates of edge pixel, end of arm 1, point of rotation for arm 2
+    yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
+    xprime = round(xprime)
+    yprime = round(yprime)
+    startingx = xprime - 10
+    for z in range(20):
+        for c in range(arm2length):
+            #arm2holderGrid[499 - (c+yprime)][startingx+z] =1
+            holderArray = []
+            holderArray.append(499-(c+yprime))
+            holderArray.append(startingx+z)
+            array.append(holderArray)
+
+            ## code above should be adding coordinates of arm 2 (prior rotation)into the 2d array named array
+    #newRotatedArm2Grid = np.zeros((500,500))
+    angle =math.radians(currentArm2Angle)
+    for f in array:
+        ox = xprime
+        oy = yprime
+        #anotherholderarray = []
+        #anotherholderarray.append(array[f])
+        px = f[0]
+        py = f[1]
+        qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+        qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+        qx = round(qx)
+        qy = round(qy)
+        xxholderarray = []
+        xxholderarray.append(qx)
+        xxholderarray.append(qy)
+        finalarray.append(xxholderarray)
+    return isOverlap2(obstacleMatrix, obstaclelist, finalarray)
+
+
+
 def generateObstacleGrid():
     m =   np.zeros((500,500))
     array = []
@@ -102,20 +147,18 @@ def generateObstacleGrid():
 
 
 def generatecspace(obstacleArray, obstacleCoordinateList):
-    cspaceHolderGrid = np.zeros((500,500))
+    cspaceHolderGrid = np.zeros((360,360))
     for arm1degree in range(360):
         arm1array = generateArm1CurrentPosition(arm1degree)
         if isOverlap1(obstacleArray, obstacleCoordinateList, arm1array):
             print("XXXXXXXXXXXXXXXXXX")
             continue
-        print(arm1degree)
         for arm2degree in range(360):
             print(arm2degree)
-            arm2array = generateArm2CurrentPosition(arm1degree,arm2degree)
-            if not isOverlap(obstacleArray,obstacleCoordinateList,arm1array,arm2array):
-                cspaceHolderGrid[arm2degree][arm1degree] = 0
+            if doesarm2overlap(arm1degree, arm2degree):
+                cspaceHolderGrid[arm1degree][arm2degree] = 1
             else:
-                cspaceHolderGrid[arm2degree][arm1degree] = 1
+                cspaceHolderGrid[arm1degree][arm2degree] = 0
     return cspaceHolderGrid
 
 
@@ -144,7 +187,21 @@ def isOverlap1(array1, coordinateList, array2):
         if array2[a][b] == 1:
             return True
     return False
-
+def isOverlap2(array1, coordinateList, array2):
+    ##for x in range(500):
+        ##for y in range(500):
+        ##    if array1[y][x] == 1 and array2[y][x] == 1 or array1[y][x] == 1 and array3[y][x]:
+            ##    return True
+    ##return False
+    for p in coordinateList:
+        a = p[0]
+        b = p[1]
+        for n in array2:
+            c = n[0]
+            d = n[1]
+            if a==c and b==d:
+                return False
+    return True
 
 
 
