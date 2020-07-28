@@ -76,6 +76,9 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
 #so bassically, we were able to reduce from like 9 hrs to 10 min per cspace by doing following changes:
 #first we changed it so that the cspace generation method  doesn't have to call arm 2 generation and isoverlap, because each iterated thru  500x500
 # this made it so that we only had to go thru 500 by 500 once.
+    #originally, we generated arm 2's current position by iterating thru a 500 by 500 matrix. then , to check overlap, we iterated thru 500 by 500 matrix again to see if there were collisisons between arm matrix and obstacle matrix
+    #we changed this so that while generating the 500 by 500 arm matrix itself, we check thru the obstacle list, that way we do not have to iterate thru a 500 by 500 matrix again
+    #this wasnt neccessary for arm 1, sicne although we iterated 500 by 500 in arm 1 generation, when checking for overlap, we iterated thru obstacle coordinate list, and used the coordinates from there to access values in arm 1's 500 by 500 grid and seeing if those values also equalled 1, so we actually were only iterating thru 500 by 500 once, and thus there was not much to decrease
 #then we also made it so that we only had to iterate thru arm coordinates (20 by 100) and the obstacle coordinates specifically, not the whole 500 by 500 matrixes
 
 def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
