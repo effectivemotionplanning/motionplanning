@@ -82,11 +82,15 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
 
 
     return newRotatedArm2Grid
+#so bassically, we were able to reduce from like 9 hrs to 10 min per cspace by doing following changes:
+#first we changed it so that the cspace generation method  doesn't have to call arm 2 generation and isoverlap, because each iterated thru 500 by 500x500
+# this made it so that we only had to go thru 500 by 500 once.
+#then we also made it so that we only had to iterate thru arm coordinates (20 by 100) and the obstacle coordinates specifically, not the whole 500 by 500 matrixes
 
-def doesarm2overlap(currentArm1Angle,currentArm2Angle):
-    arm2holderGrid = np.zeros((500,500))
+def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
+    #arm2holderGrid = np.zeros((500,500))
     array = []
-    finalarray = []
+    #finalarray = []
     angle = math.radians(currentArm1Angle)
     center_x = 249
     center_y = 249
@@ -119,14 +123,18 @@ def doesarm2overlap(currentArm1Angle,currentArm2Angle):
         qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
         qx = round(qx)
         qy = round(qy)
-        xxholderarray = []
-        xxholderarray.append(qx)
-        xxholderarray.append(qy)
-        finalarray.append(xxholderarray)
-    return isOverlap2(obstacleMatrix, obstaclelist, finalarray)
+        for r in obstaclelist:
+            if r[0] ==qx and r[1] ==qy:
+                return False
+        return True
+        #xxholderarray = []
+        #xxholderarray.append(qx)
+        #xxholderarray.append(qy)
+        #finalarray.append(xxholderarray)
 
 
 
+count = 0
 def generateObstacleGrid():
     m =   np.zeros((500,500))
     array = []
@@ -155,7 +163,7 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
             continue
         for arm2degree in range(360):
             print(arm2degree)
-            if doesarm2overlap(arm1degree, arm2degree):
+            if doesarm2overlap(arm1degree, arm2degree, obstaclelist):
                 cspaceHolderGrid[arm1degree][arm2degree] = 1
             else:
                 cspaceHolderGrid[arm1degree][arm2degree] = 0
