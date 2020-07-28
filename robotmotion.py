@@ -30,15 +30,6 @@ def generateArm1CurrentPosition(angle): ##defines the function for rotation
                 matrix[499 - yprime][xprime] = 1
     return matrix  ##returns the matrix with the rotated arm
 
-#prints total overlapped pixels of arm and matrix
-def overlapcount(armgrid, matrix):
-    overlapCount = 0
-    for x in range (500):
-        for y in range(500):
-            if armgrid[x,y] == 1 and matrix[x,y] ==1: ##if x and y corodiantes point to a place that is 1, then it will increase the overlap count to determine the number of collisions
-                overlapCount+=1
-    print(overlapCount)
-
 #prints how many obstacles are there
 def countobstacles(matrix):
     count = 0
@@ -105,7 +96,7 @@ def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
         for c in range(arm2length):
             #arm2holderGrid[499 - (c+yprime)][startingx+z] =1
             holderArray = []
-            holderArray.append(499-(c+yprime))
+            holderArray.append(c+yprime)
             holderArray.append(startingx+z)
             array.append(holderArray)
 
@@ -124,7 +115,7 @@ def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
         qx = round(qx)
         qy = round(qy)
         for r in obstaclelist:
-            if r[0] ==qx and r[1] ==qy:
+            if r[0] ==qy and r[1] ==qx:
                 return False
         return True
         #xxholderarray = []
@@ -144,7 +135,7 @@ def generateObstacleGrid():
             if num<.00003:
                 for r in range(20):
                     for c in range(20):
-                        m[y+r][x+c] = 1
+                        m[499 - (y+r)][x+c] = 1
                         holderArray = []
                         holderArray.append(y+r)
                         holderArray.append(x+c)
@@ -163,9 +154,10 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
         for arm2degree in range(360):
             print(arm2degree)
             if doesarm2overlap(arm1degree, arm2degree, obstaclelist):
-                cspaceHolderGrid[arm2degree][arm1degree] = 1
+                cspaceHolderGrid[359 - arm2degree][arm1degree] = 1
             else:
-                cspaceHolderGrid[arm2degree][arm1degree] = 0
+                cspaceHolderGrid[359 - arm2degree][arm1degree] = 0
+    print(cspaceHolderGrid)
     return cspaceHolderGrid
 
 
@@ -191,7 +183,7 @@ def isOverlap1(array1, coordinateList, array2):
     for p in coordinateList:
         a = p[0]
         b = p[1]
-        if array2[a][b] == 1:
+        if array2[499-a][b] == 1:
             return True
     return False
 
