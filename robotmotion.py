@@ -83,7 +83,7 @@ def generateArm2CurrentPosition(currentArm1Angle,currentArm2Angle):
 
     return newRotatedArm2Grid
 #so bassically, we were able to reduce from like 9 hrs to 10 min per cspace by doing following changes:
-#first we changed it so that the cspace generation method  doesn't have to call arm 2 generation and isoverlap, because each iterated thru 500 by 500x500
+#first we changed it so that the cspace generation method  doesn't have to call arm 2 generation and isoverlap, because each iterated thru  500x500
 # this made it so that we only had to go thru 500 by 500 once.
 #then we also made it so that we only had to iterate thru arm coordinates (20 by 100) and the obstacle coordinates specifically, not the whole 500 by 500 matrixes
 
