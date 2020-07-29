@@ -184,12 +184,10 @@ def generateObstacleGrid():
 def generatecspace(obstacleArray, obstacleCoordinateList):
     cspaceHolderGrid = np.zeros((360,360))
     for arm1degree in range(360):
-        print(arm1degree)
         if doesarm1overlap(arm1degree, obstacleCoordinateList):
-            cspaceHolderGrid[359-arm2degree] = 1
-            print("test")
             continue
         for arm2degree in range(360):
+            print(arm2degree)
             if doesarm2overlap(arm1degree, arm2degree, obstaclelist):
                 cspaceHolderGrid[359 - arm2degree][arm1degree] = 1
             else:
