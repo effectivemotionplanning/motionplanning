@@ -119,8 +119,8 @@ def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
         qy = round(qy)
         for r in obstaclelist:
             if r[0] ==qy and r[1] ==qx:
-                return False
-        return True
+                return True
+        return False
         #xxholderarray = []
         #xxholderarray.append(qx)
         #xxholderarray.append(qy)
