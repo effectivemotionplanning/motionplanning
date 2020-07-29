@@ -117,22 +117,39 @@ def doesarm2overlap(currentArm1Angle,currentArm2Angle, obstaclelist):
         qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
         qx = round(qx)
         qy = round(qy)
-        for r in obstaclelist:
-            if r[0] ==qy and r[1] ==qx:
-
-                return True
+        if (qy,qx) in obstaclelist:
+            return True
         return False
         #xxholderarray = []
         #xxholderarray.append(qx)
         #xxholderarray.append(qy)
         #finalarray.append(xxholderarray)
+def doesArm1Overlap(a1angle, obstacleHashTable):
+    mylist = np.zeros((500,500))
+    for z in range(20):
+        for c in range(arm1length):
+            mylist[499 - (240+c)][z+250] =1
 
+    angle = math.radians(a1angle) ##converts into radians
+    matrix = np.zeros((500,500))  ##fill a 500x500 array with 0s
+    for x in range(500): ##x coordinate
+        for y in range(500): ##y coordinate
+            if mylist[499-y][x] == 1:##this is the arm and this code does rotation and at every point that equals one, it rotates it and creates a new matrix
+                center_x = 249
+                center_y = 249
+                xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+                yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
+                xprime = round(xprime)
+                yprime = round(yprime)
+                if (yprime,xprime) in obstaclelist:
+                    return True
+    return False  ##returns the matrix with the rotated arm
 
 
 count = 0
 def generateObstacleGrid():
     m =   np.zeros((500,500))
-    array = []
+    array = {}
     for x in range(480):
         for y in range(480):
             num = random.random()
@@ -140,10 +157,7 @@ def generateObstacleGrid():
                 for r in range(20):
                     for c in range(20):
                         m[499 - (y+r)][x+c] = 1
-                        holderArray = []
-                        holderArray.append(y+r)
-                        holderArray.append(x+c)
-                        array.append(holderArray)
+                        array[((y+r),(x+c))] = 1
     return m, array
 
 
@@ -153,8 +167,8 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
     cspaceHolderGrid = np.zeros((360,360))
     for arm1degree in range(360):
         print(arm1degree)
-        arm1array = generateArm1CurrentPosition(arm1degree)
-        if isOverlap1(obstacleArray, obstacleCoordinateList, arm1array):
+
+        if doesArm1Overlap(arm1degree,obstacleCoordinateList):
             for hold in range(360):
                 cspaceHolderGrid[359 - hold][arm1degree] = 1
             continue
