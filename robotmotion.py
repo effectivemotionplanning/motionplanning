@@ -53,6 +53,8 @@ def doesarm1overlap(angle, obstacelist): ##defines the function for rotation
                 #yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
                 #xprime = round(xprime)
                 #yprime = round(yprime)
+
+
                     ox = 249
                     oy = 249
                     #anotherholderarray = []
