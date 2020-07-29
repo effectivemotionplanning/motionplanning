@@ -45,25 +45,37 @@ def doesarm1overlap(angle, obstacelist): ##defines the function for rotation
         ##for y in range(500): ##y coordinate
             ##if mylist[499-y][x] == 1:##this is the arm and this code does rotation and at every point that equals one (which is the arm 1), it rotates it and creates a new matrix
     for f in array:
-                x = f[0]
-                y = f[1]
-                center_x = 249 ##rotation around the center
-                center_y = 249
-                xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
-                yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
-                xprime = round(xprime)
-                yprime = round(yprime)
-                ##matrix[499 - yprime][xprime] = 1 ##marks the rotated arm
-                ##for z in range(20):
+                #x = f[0]
+                #y = f[1]
+                #center_x = 249 ##rotation around the center
+                #center_y = 249
+                #xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+                #yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
+                #xprime = round(xprime)
+                #yprime = round(yprime)
+
+
+                    ox = 249
+                    oy = 249
+                    #anotherholderarray = []
+                    #anotherholderarray.append(array[f])
+                    px = f[0]
+                    py = f[1]
+                    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+                    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+                    qx = round(qx)
+                    qy = round(qy)
+                    ##matrix[499 - yprime][xprime] = 1 ##marks the rotated arm
+                    ##for z in range(20):
                     ##for c in range(arm1length):
-                    ##    holderArray = [] ## code should be adding coordinates of arm 1 (after rotation) into the 2d array named array
-                        ##holderArray.append(499-(c+yprime))
-                        ##holderArray.append(xprime+z)
-                        ##array.append(holderArray)
-                for r in obstaclelist: ##checks the obstacles during generation to speed it up
-                    if r[0] == yprime and r[1] == xprime: ##checks if row 1 and 2 in the obstaclelist are the same as the rotated arm
-                        return True
-                return False
+                    ## holderArray = [] ## code should be adding coordinates of arm 1 (after rotation) into the 2d array named array
+                    ##holderArray.append(499-(c+yprime))
+                    ##holderArray.append(xprime+z)
+                    ##array.append(holderArray)
+                    for r in obstaclelist: ##checks the obstacles during generation to speed it up
+                        if r[0] == qy and r[1] == qx: ##checks if row 1 and 2 in the obstaclelist are the same as the rotated arm
+                            return True
+                    return False
 
 #prints total overlapped pixels of arm and matrix
 def overlapcount(armgrid, matrix):
@@ -186,7 +198,7 @@ def generatecspace(obstacleArray, obstacleCoordinateList):
     for arm1degree in range(360):
         print(arm1degree)
         if doesarm1overlap(arm1degree, obstacleCoordinateList):
-            cspaceHolderGrid[359-arm2degree] = 1
+            #cspaceHolderGrid[359-arm2degree] = 1
             print("test")
             continue
         for arm2degree in range(360):
