@@ -29,15 +29,15 @@ def generateArm1CurrentPosition(angle): ##defines the function for rotation
                 matrix[499 - yprime][xprime] = 1 ##marks the rotated arm
     return matrix  ##returns the matrix with the rotated arm
 
-def doesarm1overlap(angle, obstacelist): ##defines the function for rotation
+def doesarm1overlap(angle, coordinateList): ##defines the function for rotation
     ##mylist = np.zeros((500,500))
     array = []
     for z in range(20):
         for c in range(arm1length):
             ##mylist[499 - (240+c)][z+250] = 1
             holderArray = [] ## code should be adding coordinates of arm 2 (prior rotation)into the 2d array named array
-            holderArray.append(499 - (240+c))
-            holderArray.append(z+250)
+            holderArray.append(499-(c+yprime))
+            holderArray.append(startingx+z)
             array.append(holderArray)
     angle = math.radians(angle) ##converts into radians
     ##matrix = np.zeros((500,500))  ##fill a 500x500 array with 0s
@@ -60,8 +60,10 @@ def doesarm1overlap(angle, obstacelist): ##defines the function for rotation
                         ##holderArray.append(499-(c+yprime))
                         ##holderArray.append(xprime+z)
                         ##array.append(holderArray)
-                for r in obstaclelist: ##checks the obstacles during generation to speed it up
-                    if r[0] == yprime and r[1] == xprime: ##checks if row 1 and 2 in the obstaclelist are the same as the rotated arm
+                for p in coordinateList:
+                    a = p[0]
+                    b = p[1]
+                    if array2[a][b] == 1: ##2d array
                         return True
                 return False
 
@@ -181,17 +183,17 @@ def generateObstacleGrid():
     return m, array
 
 
-def generatecspace(obstacleArray, obstacleCoordinateList):
+def generatecspace(obstacleArray, coordinateList, obstacleCoordinateList):
     cspaceHolderGrid = np.zeros((360,360))
     for arm1degree in range(360):
-        if doesarm1overlap(arm1degree, obstacleCoordinateList):
+        if doesarm1overlap(arm1degree, coordinateList):
             continue
         for arm2degree in range(360):
             print(arm2degree)
             if doesarm2overlap(arm1degree, arm2degree, obstaclelist):
-                cspaceHolderGrid[359 - arm2degree][arm1degree] = 1
+                cspaceHolderGrid[360 - arm2degree][arm1degree] = 1
             else:
-                cspaceHolderGrid[359 - arm2degree][arm1degree] = 0
+                cspaceHolderGrid[360 - arm2degree][arm1degree] = 0
     return cspaceHolderGrid
 
 
