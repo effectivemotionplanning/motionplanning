@@ -9,13 +9,12 @@ import pandas
 import math
 
 import matplotlib.pyplot as plt
-
+arm1length = 100
 def generateArm1CurrentPosition(angle): ##defines the function for rotation
     mylist = np.zeros((500,500))
     for z in range(20):
         for c in range(arm1length):
             mylist[499 - (240+c)][z+250] =1
-
     angle = math.radians(angle) ##converts into radians
     matrix = np.zeros((500,500))  ##fill a 500x500 array with 0s
     for x in range(500): ##x coordinate
@@ -29,6 +28,31 @@ def generateArm1CurrentPosition(angle): ##defines the function for rotation
                 yprime = round(yprime)
                 matrix[499 - yprime][xprime] = 1
     return matrix  ##returns the matrix with the rotated arm
+def vectorizationdoesarm1overlap(angle): #outer product
+    mylist1 = np.zeros(500)
+    mylist2 = np.zeros(500)
+    for z in range(20):
+        mylist1[z+250] =1
+    for c in range(100):
+        mylist2[499-(240+c)] =1
+    #outer product rn
+    for x in mylist1:
+        center_x = 249
+        center_y = 249
+        xprime = (x - center_x) * math.cos(angle) - (y - center_y) * math.sin(angle) + center_x
+        xprime = round(xprime)
+        mylist1[x] = xprime
+    for y in mylist2:
+        center_y = 249
+        yprime = (x - center_x) * math.sin(angle) + (y - center_y) * math.cos(angle) + center_y
+        yprime = round(yprime)
+        mylist[y] = 499-yprime
+    outer_product = np.outer(mylist2, mylist1)
+    return outer_product
+plt.imshow( vectorizationdoesarm1overlap(10))
+plt.show()
+plt.imshow(generateArm1CurrentPosition(10))
+plt.show()
 
 #prints how many obstacles are there
 def countobstacles(matrix):
@@ -219,7 +243,7 @@ def isOverlap1(array1, coordinateList, array2):
 obstacleMatrix, obstaclelist = generateObstacleGrid();
 ##generating a random angle for the arms initial and final configs
 #each arm is 100 long
-arm1length = 100
+
 arm2length = 100
 arm1Grid = np.zeros((500,500))
 arm2Grid = np.zeros((500,500))
